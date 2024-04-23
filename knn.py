@@ -37,7 +37,7 @@ df = df_ratings[["user", "rating"]]\
     .count()\
     .reset_index()
 
-df['rating_log10'] = np.log10(df['rating'])
+# df['rating_log10'] = np.log10(df['rating'])
 # df.plot.scatter(x="user", y="rating_log10")
 
 
@@ -55,7 +55,7 @@ dfu = df_ratings[["user", "rating"]]\
 
 good_users = dfu.loc[dfu["rating"] >= 200]["user"]
 
-df = df_ratings.loc[df_ratings["user"].isin(good_users)]
+# df = df_ratings.loc[df_ratings["user"].isin(good_users)]
 df = df.loc[df["isbn"].isin(good_books["isbn"])]
 
 
@@ -72,7 +72,7 @@ mat_book_features = csr_matrix(df_book_features.values)
 
 
 model = NearestNeighbors(metric='cosine')
-model.fit(mat_book_features)
+# model.fit(mat_book_features)
 
 
 def get_recommends(isbn = ""):
@@ -99,10 +99,10 @@ def get_recommends(isbn = ""):
     if not valid_indices:
         return {"error": "No valid indices found for recommendations"}
 
-    titles = [
-        df_books.loc[df_books['isbn'] == df_book_features.iloc[i].name].values[0]\
-        for i in indice
-    ]
+    # titles = [
+    #     df_books.loc[df_books['isbn'] == df_book_features.iloc[i].name].values[0]\
+    #     for i in indice
+    # ]
 
     recommendations = [
         {
