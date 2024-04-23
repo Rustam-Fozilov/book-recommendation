@@ -12,8 +12,6 @@ Babel==2.10.3
 beautifulsoup4==4.12.3
 bleach==6.1.0
 blinker==1.6.2
-Brlapi==0.8.4
-Brotli==1.0.9
 certifi==2022.9.24
 cffi==1.16.0
 chardet==5.1.0
