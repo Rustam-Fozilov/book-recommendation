@@ -12,7 +12,7 @@ ratings_filename = 'ratings.csv'
 # import csv data into dataframes
 df_books = pd.read_csv(
     books_filename,
-    encoding = "ISO-8859-1",
+    encoding="ISO-8859-1",
     sep=";",
     header=0,
     names=['isbn', 'title', 'author', 'year', 'publisher', 'image-url-s', 'image-url-m', 'image-url-l'],
@@ -87,7 +87,7 @@ def get_recommends(isbn = ""):
     b = df_book_features.loc[df_book_features.index.isin(book["isbn"])]
     distance, indice = model.kneighbors([x for x in b.values], n_neighbors=11)
 
-    distance =  distance[0][1:]
+    distance = distance[0][1:]
     indice = indice[0][1:]
 
     # Ensure valid_indices does not exceed the length of df_book_features
