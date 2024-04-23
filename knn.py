@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
-# from scipy.sparse import csr_matrix
+from scipy.sparse import csr_matrix
 from sklearn.neighbors import NearestNeighbors
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 
 books_filename = 'books.csv'
@@ -12,7 +12,7 @@ ratings_filename = 'ratings.csv'
 # import csv data into dataframes
 df_books = pd.read_csv(
     books_filename,
-    encoding="ISO-8859-1",
+    encoding = "ISO-8859-1",
     sep=";",
     header=0,
     names=['isbn', 'title', 'author', 'year', 'publisher', 'image-url-s', 'image-url-m', 'image-url-l'],
@@ -37,7 +37,7 @@ df = df_ratings[["user", "rating"]]\
     .count()\
     .reset_index()
 
-# df['rating_log10'] = np.log10(df['rating'])
+df['rating_log10'] = np.log10(df['rating'])
 # df.plot.scatter(x="user", y="rating_log10")
 
 
@@ -55,7 +55,7 @@ dfu = df_ratings[["user", "rating"]]\
 
 good_users = dfu.loc[dfu["rating"] >= 200]["user"]
 
-# df = df_ratings.loc[df_ratings["user"].isin(good_users)]
+df = df_ratings.loc[df_ratings["user"].isin(good_users)]
 df = df.loc[df["isbn"].isin(good_books["isbn"])]
 
 
@@ -68,11 +68,11 @@ df_book_features = df.pivot(
 
 # convert dataframe of book features to scipy sparse matrix
 # this part requires a lot of memory!
-# mat_book_features = csr_matrix(df_book_features.values)
+mat_book_features = csr_matrix(df_book_features.values)
 
 
 model = NearestNeighbors(metric='cosine')
-# model.fit(mat_book_features)
+model.fit(mat_book_features)
 
 
 def get_recommends(isbn = ""):
@@ -87,7 +87,7 @@ def get_recommends(isbn = ""):
     b = df_book_features.loc[df_book_features.index.isin(book["isbn"])]
     distance, indice = model.kneighbors([x for x in b.values], n_neighbors=11)
 
-    distance = distance[0][1:]
+    distance =  distance[0][1:]
     indice = indice[0][1:]
 
     # Ensure valid_indices does not exceed the length of df_book_features
@@ -99,10 +99,10 @@ def get_recommends(isbn = ""):
     if not valid_indices:
         return {"error": "No valid indices found for recommendations"}
 
-    # titles = [
-    #     df_books.loc[df_books['isbn'] == df_book_features.iloc[i].name].values[0]\
-    #     for i in indice
-    # ]
+    titles = [
+        df_books.loc[df_books['isbn'] == df_book_features.iloc[i].name].values[0]\
+        for i in indice
+    ]
 
     recommendations = [
         {
