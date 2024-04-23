@@ -75,7 +75,7 @@ model = NearestNeighbors(metric='cosine')
 model.fit(mat_book_features)
 
 
-def get_recommends(isbn = ""):
+def get_recommends(isbn=""):
     try:
         book = good_books.loc[good_books["isbn"] == isbn]
     except KeyError as e:
@@ -87,7 +87,7 @@ def get_recommends(isbn = ""):
     b = df_book_features.loc[df_book_features.index.isin(book["isbn"])]
     distance, indice = model.kneighbors([x for x in b.values], n_neighbors=11)
 
-    distance =  distance[0][1:]
+    distance = distance[0][1:]
     indice = indice[0][1:]
 
     # Ensure valid_indices does not exceed the length of df_book_features
@@ -98,11 +98,6 @@ def get_recommends(isbn = ""):
 
     if not valid_indices:
         return {"error": "No valid indices found for recommendations"}
-
-    titles = [
-        df_books.loc[df_books['isbn'] == df_book_features.iloc[i].name].values[0]\
-        for i in indice
-    ]
 
     recommendations = [
         {

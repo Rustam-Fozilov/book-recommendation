@@ -14,7 +14,7 @@ def read_root():
     }
 
 
-@app.get("/recommend/{isbn}")
+@app.get("/recommendation/{isbn}")
 def read_item(isbn: str):
     return knn.get_recommends(isbn)
 
