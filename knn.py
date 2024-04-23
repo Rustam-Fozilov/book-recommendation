@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from scipy.sparse import csr_matrix
+# from scipy.sparse import csr_matrix
 from sklearn.neighbors import NearestNeighbors
 import matplotlib.pyplot as plt
 
@@ -68,7 +68,7 @@ df_book_features = df.pivot(
 
 # convert dataframe of book features to scipy sparse matrix
 # this part requires a lot of memory!
-mat_book_features = csr_matrix(df_book_features.values)
+# mat_book_features = csr_matrix(df_book_features.values)
 
 
 model = NearestNeighbors(metric='cosine')
