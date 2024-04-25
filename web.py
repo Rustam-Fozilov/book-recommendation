@@ -1,26 +1,41 @@
 from typing import Union
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import knn
 
 app = FastAPI()
 
+origins = [
+    "http://localhost",
+    "http://localhost:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 def transformed_books():
     # Transforming the data
     transformed_data = []
-    keys = knn.good_books.head(10)["isbn"].keys()
+    original_books = knn.good_books.head(8)
+    keys = knn.good_books.head(8)["isbn"].keys()
 
     for key in keys:
         book = {
-            "isbn": knn.good_books.head(10)["isbn"][key],
-            "title": knn.good_books.head(10)["title"][key],
-            "author": knn.good_books.head(10)["author"][key],
-            "year": knn.good_books.head(10)["year"][key],
-            "publisher": knn.good_books.head(10)["publisher"][key],
-            "image-url-s": knn.good_books.head(10)["image-url-s"][key],
-            "image-url-m": knn.good_books.head(10)["image-url-m"][key],
-            "image-url-l": knn.good_books.head(10)["image-url-l"][key],
+            "isbn": original_books["isbn"][key],
+            "title": original_books["title"][key],
+            "author": original_books["author"][key],
+            "year": original_books["year"][key],
+            "publisher": original_books["publisher"][key],
+            "image_url_s": original_books["image-url-s"][key],
+            "image_url_m": original_books["image-url-m"][key],
+            "image_url_l": original_books["image-url-l"][key],
         }
         transformed_data.append(book)
 
