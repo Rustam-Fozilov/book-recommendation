@@ -9,6 +9,7 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:8080",
+    "https://bookly-xi.vercel.app"
 ]
 
 app.add_middleware(
@@ -21,7 +22,6 @@ app.add_middleware(
 
 
 def transformed_books():
-    # Transforming the data
     transformed_data = []
     original_books = knn.good_books.head(8)
     keys = knn.good_books.head(8)["isbn"].keys()
@@ -43,18 +43,6 @@ def transformed_books():
     return transformed_data
 
 
-def transformed_recommendations(isbn):
-    original_data = knn.get_recommends(isbn)
-    keys_to_keep = ["isbn", "title", "author", "year", "publisher", "image-url-s", "image-url-m", "image-url-l", "distance"]
-
-    transformed_data = [
-        {key: item[key] for key in keys_to_keep if key in item}
-        for item in original_data
-    ]
-
-    return transformed_data
-
-
 @app.get("/")
 def read_root():
     return {
@@ -63,8 +51,18 @@ def read_root():
 
 
 @app.get("/recommendation/{isbn}")
-def read_item(isbn: str):
-    return transformed_recommendations(isbn)
+def read_recom(isbn: str):
+    return knn.get_recommends(isbn)
+
+
+@app.get("/books/{isbn}")
+def read_book(isbn: str):
+    return knn.get_book(isbn)
+
+
+@app.get("/search/{title}")
+def search_book(title: str):
+    return knn.search_books(title)
 
 
 # if __name__ == '__main__':
