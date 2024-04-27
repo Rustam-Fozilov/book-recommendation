@@ -37,7 +37,20 @@ def transformed_books():
             "image_url_m": original_books["image-url-m"][key],
             "image_url_l": original_books["image-url-l"][key],
         }
+
         transformed_data.append(book)
+
+    return transformed_data
+
+
+def transformed_recommendations(isbn):
+    original_data = knn.get_recommends(isbn)
+    keys_to_keep = ["isbn", "title", "author", "year", "publisher", "image-url-s", "image-url-m", "image-url-l", "distance"]
+
+    transformed_data = [
+        {key: item[key] for key in keys_to_keep if key in item}
+        for item in original_data
+    ]
 
     return transformed_data
 
@@ -51,7 +64,8 @@ def read_root():
 
 @app.get("/recommendation/{isbn}")
 def read_item(isbn: str):
-    return knn.get_recommends(isbn)
+    return transformed_recommendations(isbn)
+
 
 # if __name__ == '__main__':
 #     uvicorn.run(app, host='0.0.0.0', port=8000, reload=True)
