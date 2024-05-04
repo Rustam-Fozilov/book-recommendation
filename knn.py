@@ -104,7 +104,7 @@ def get_recommends(isbn=""):
         return {"error": f"Book isbn '{isbn}' not found"}
 
     b = df_book_features.loc[df_book_features.index.isin(book["isbn"])]
-    distance, indice = model.kneighbors([x for x in b.values], n_neighbors=9)
+    distance, indice = model.kneighbors([x for x in b.values], n_neighbors=51)
 
     distance = distance[0][1:]
     indice = indice[0][1:]

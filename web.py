@@ -23,8 +23,8 @@ app.add_middleware(
 
 def transformed_books():
     transformed_data = []
-    original_books = knn.good_books.head(8)
-    keys = knn.good_books.head(8)["isbn"].keys()
+    original_books = knn.good_books.head(10)
+    keys = knn.good_books.head(10)["isbn"].keys()
 
     for key in keys:
         book = {
