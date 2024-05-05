@@ -9,7 +9,8 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:8080",
-    "https://bookly-xi.vercel.app"
+    "https://bookly-xi.vercel.app",
+    "https://fbks.vercel.app"
 ]
 
 app.add_middleware(
